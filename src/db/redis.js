@@ -45,8 +45,6 @@ function create() {
         retry_strategy: () => config.get('db.redis.retryStrategy'),
     });
 
-    client.auth(redisURL.auth.split(':')[1]);
-
     client.on('error', onError);
     client.on('connect', onConnect);
     client.on('reconnecting', onReconnecting);
