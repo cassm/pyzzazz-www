@@ -5,8 +5,13 @@ const { stderrStream, stdoutStream } = require('./utils/logger/morgan');
 
 const indexRouter = require('../routes');
 const usersRouter = require('../routes/users');
+const redis = require("./db/redis");
 
 const app = express();
+
+// connect redis client
+const r = redis.client.getInstance();
+r.connect();
 
 // Morgan logger
 app.use(stderrStream, stdoutStream);
