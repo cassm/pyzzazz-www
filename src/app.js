@@ -1,14 +1,16 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const { stderrStream, stdoutStream } = require('./utils/logger/morgan');
 
 const indexRouter = require('../routes');
 const usersRouter = require('../routes/users');
 
 const app = express();
 
-app.use(logger('dev'));
+// Morgan logger
+app.use(stderrStream, stdoutStream);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

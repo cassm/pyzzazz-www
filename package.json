@@ -10,6 +10,7 @@
     "watch": "webpack --progress --color --config webpack.config.js --watch"
   },
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "config": "^3.3.7",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -20,6 +21,7 @@
     "socketio": "^1.0.0",
     "three": "^0.137.5",
     "webpack": "^5.69.1",
-    "webpack-cli": "^4.9.2"
+    "webpack-cli": "^4.9.2",
+    "winston": "^3.6.0"
   }
 }

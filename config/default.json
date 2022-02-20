@@ -1,6 +1,9 @@
 {
     "app": {
-        "port": 5000
+        "port": 5000,
+        "logging": {
+            "file": true
+        }
     },
     "db": {
         "redis": {
