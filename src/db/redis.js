@@ -1,13 +1,13 @@
 'use strict';
 
-const url = require('url');
+const {URL} = require('url');
 const { createClient } = require('redis');
 const config = require('config');
 const winston = require('../utils/logger/winston');
 
 let client = null;
 
-const redisURL = url.parse(config.get('db.redis.url'));
+const redisURL = new URL(config.get('db.redis.url'));
 
 function onError(err) {
     client = null;
