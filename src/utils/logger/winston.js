@@ -2,8 +2,8 @@
 
 const appRoot = require('app-root-path');
 const { createLogger, transports, format } = require('winston');
+const { combine, timestamp, label, printf } = format;
 
-const { combine, prettyPrint } = format;
 const config = require('config');
 
 /**
@@ -37,7 +37,12 @@ const logger = createLogger({
         format.timestamp({
             format: 'YYYY-MM-DD HH:mm:ss',
         }),
-        prettyPrint(),
+        format.colorize({
+            all: true,
+        }),
+        printf(({level, message, timestamp}) => {
+            return `${timestamp} ${level}: ${message}`;
+        }),
     ),
     transports: [
         /* istanbul ignore next line */
