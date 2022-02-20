@@ -6,6 +6,7 @@
 
 const app = require('../src/app');
 const http = require('http');
+const socket = require('../src/socket');
 const winston = require('../src/utils/logger/winston');
 const config = require('config');
 
@@ -21,6 +22,11 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
+
+/**
+ * Instantiate socket server
+ */
+const sock = socket(server);
 
 /**
  * Listen on provided port, on all network interfaces.
