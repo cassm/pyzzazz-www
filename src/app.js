@@ -25,5 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/leds', ledsRouter);
+app.use(express.static('public'));
+app.use('/dist', express.static('client/dist', ))
 
 module.exports = app;

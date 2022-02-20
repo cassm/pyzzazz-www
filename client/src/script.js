@@ -41,6 +41,7 @@ const socket = io.connect('http://localhost:5000');
 socket.on('connect', function() {
     socket.on('colours', (data) => {
         if (data) {
+            data = JSON.parse(data);
             colours = data;
             updateColours();
         }
@@ -54,7 +55,7 @@ const controls = new OrbitControls( camera, renderer.domElement );
 
 
 renderer.setPixelRatio( window.devicePixelRatio );
-renderer.setSize( window.innerWidth*0.99, window.innerHeight*0.98 );
+renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.toneMapping = THREE.ReinhardToneMapping;
 document.body.appendChild( renderer.domElement );
 
@@ -118,6 +119,9 @@ function updateColours() {
     }
     try {
         for (let i = 0; i < colours.length; i++) {
+            if (!leds[i]) {
+                return;
+            }
             leds[i].material.uniforms.colour.value.set(...colours[i]);
             leds[i].material.uniforms.scale.value = colours[i][0] + colours[i][1] + colours[i][2];
             //TODO must use shaders for this. huge flame point
@@ -126,14 +130,15 @@ function updateColours() {
             // leds[i].material.color.set(`rgb(${colours[i][0]},${colours[i][1]},${colours[i][2]})`);
         }
     } catch (err) {
-        console.log(err);
+        console.log(leds.length);
+        // console.log(err);
     }
 }
 
 $(document).ready(() => {
-    getState('http://localhost:5000/position').then((res) => {
+    getState('http://localhost:5000/leds/coords').then((res) => {
         coords = res;
-        return getState('http://localhost:5000/colour');
+        return getState('http://localhost:5000/leds/colours');
     }).then((res) => {
         colours = res;
         initLeds();

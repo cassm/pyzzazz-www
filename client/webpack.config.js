@@ -2,9 +2,9 @@ const webpack = require('webpack')
 
 const config = {
     mode: "development",
-    entry: __dirname + '/public/javascripts/script.js',
+    entry: __dirname + '/src/script.js',
     output: {
-        path: __dirname + '/public/javascripts/dist',
+        path: __dirname + '/dist',
         filename: 'bundle.js',
     },
     resolve: {
