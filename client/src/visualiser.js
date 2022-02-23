@@ -136,9 +136,9 @@ function updateColours() {
 }
 
 $(document).ready(() => {
-    getState('http://localhost:5000/leds/coords').then((res) => {
+    getState('http://localhost:5000/resource/coords').then((res) => {
         coords = res;
-        return getState('http://localhost:5000/leds/colours');
+        return getState('http://localhost:5000/resource/colours');
     }).then((res) => {
         colours = res;
         initLeds();

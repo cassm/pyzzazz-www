@@ -5,7 +5,7 @@ const { stderrStream, stdoutStream } = require('./utils/logger/morgan');
 
 const indexRouter = require('../routes');
 const usersRouter = require('../routes/users');
-const ledsRouter = require('../routes/leds');
+const resourceRouter = require('../routes/resource');
 const redis = require("./db/redis");
 
 const app = express();
@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/leds', ledsRouter);
+app.use('/resource', resourceRouter);
 app.use(express.static('public'));
 app.use('/dist', express.static('client/dist', ))
 

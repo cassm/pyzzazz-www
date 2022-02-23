@@ -5,17 +5,6 @@ const router = express.Router();
 
 const r = redis.client.getInstance();
 
-/* GET home page. */
-router.get('/', async function(req, res, next) {
-  const colours = await JSON.parse(await r.get('pyzzazz:leds:colours'));
-  const coords = await JSON.parse(await r.get('pyzzazz:leds:coords'));
-
-  res.json({
-    colours,
-    coords
-  })
-});
-
 router.get('/:resource', async function(req, res, next) {
   const resource = req.params.resource;
 
