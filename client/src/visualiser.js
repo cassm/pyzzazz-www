@@ -8,11 +8,10 @@ import { io } from 'socket.io-client'
 // import {uniform} from "three/examples/jsm/renderers/nodes/ShaderNode";
 
 const _Vs = `
-    uniform float scale;
-//    varying vec3 v_Normal;
+    uniform vec3 colour;
     
     void main() {
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position*scale, 1.0);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position*(colour.x+colour.y+colour.z), 1.0);
     }
 `;
 
@@ -21,7 +20,6 @@ const _Fs = `
     
     void main() {
        gl_FragColor = vec4(colour, 1.0);
-          // gl_FragColor = vec4(1.0,1.0,1.0,1.0);
     }
 `;
 
@@ -42,8 +40,21 @@ socket.on('connect', function() {
     socket.on('colours', (data) => {
         if (data) {
             data = JSON.parse(data);
-            colours = data;
-            updateColours();
+            // loop with length caching is apparently the fastest way to do this
+            let pixel = 0;
+            let channel = 0;
+            let pixelLength = colours.length;
+            let channelLength = 3;
+
+            while (pixel < pixelLength) {
+                channel = 0;
+
+                while (channel < channelLength) {
+                    colours[pixel][channel] = data[pixel][channel];
+                    channel++;
+                }
+                pixel++;
+            }
         }
     })
 });
@@ -80,12 +91,8 @@ function initLeds() {
         const material = new THREE.ShaderMaterial({
             uniforms: {
                 colour: {
-                    value: new THREE.Vector3(...colours[i]),
+                    value: colours[i]
                 },
-                scale: {
-                    value: colours[i][0] + colours[i][1] +
-                        colours[i][2]
-                }
             },
             vertexShader: _Vs,
             fragmentShader: _Fs,
@@ -107,32 +114,8 @@ async function getState(url) {
 
 function animate() {
     requestAnimationFrame( animate );
-    // updateColours();
     controls.update();
-    // renderer.render(scene, camera);
     composer.render();
-}
-
-function updateColours() {
-    if (!leds) {
-        return
-    }
-    try {
-        for (let i = 0; i < colours.length; i++) {
-            if (!leds[i]) {
-                return;
-            }
-            leds[i].material.uniforms.colour.value.set(...colours[i]);
-            leds[i].material.uniforms.scale.value = colours[i][0] + colours[i][1] + colours[i][2];
-            //TODO must use shaders for this. huge flame point
-            // let luminosity = (colours[i].reduce((partialSum, a) => partialSum+a, 0)) / (128*3);
-            // leds[i].scale.set(luminosity*1.5, luminosity*1.5, luminosity*1.5);
-            // leds[i].material.color.set(`rgb(${colours[i][0]},${colours[i][1]},${colours[i][2]})`);
-        }
-    } catch (err) {
-        console.log(leds.length);
-        // console.log(err);
-    }
 }
 
 $(document).ready(() => {
