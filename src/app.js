@@ -3,8 +3,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const { stderrStream, stdoutStream } = require('./utils/logger/morgan');
 
-const indexRouter = require('../routes');
-const usersRouter = require('../routes/users');
 const resourceRouter = require('../routes/resource');
 const redis = require("./db/redis");
 
@@ -20,12 +18,13 @@ app.use(stderrStream, stdoutStream);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use(express.static(path.join(__dirname, '../', 'react-client', 'build')));
 app.use('/resource', resourceRouter);
-app.use(express.static('public'));
-app.use('/dist', express.static('client/dist', ))
+
+// pass everything that isn't a static file request or an api request to react for routing
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../', 'react-client', 'build', 'index.html'));
+})
 
 module.exports = app;
