@@ -8,9 +8,10 @@ export const Logo = props => {
     const innerPentRadius = 0.3;
     const outerPentRadius = 0.55;
 
+    const strokeWidth = props.size/25;
     const lines = [];
     for (let i = 0; i < 5; i++) {
-        lines.push(<line x1="50%" y1="50%" x2="50%" y2="100%" stroke="white" strokeWidth={props.strokeWidth} transform={`rotate(${i*fifthCircle} ${props.width*0.5} ${props.height*0.5})`} />);
+        lines.push(<line x1="50%" y1="50%" x2="50%" y2="100%" stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
 
         const innerPentIntersections = [[50 - 50*innerPentRadius*radiusToEdge*0.6, 50*(1-innerPentRadius)],
                                         [50 + 50*innerPentRadius*radiusToEdge*0.6, 50*(1-innerPentRadius)]];
@@ -23,37 +24,37 @@ export const Logo = props => {
 
         lines.push(<line x1={`${innerPentIntersections[0][0]}%`} y1={`${innerPentIntersections[0][1]}%`}
                          x2="50%" y2="0"
-                         stroke="white" strokeWidth={props.strokeWidth} transform={`rotate(${i*fifthCircle} ${props.width*0.5} ${props.height*0.5})`} />);
+                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
 
         lines.push(<line x1="50%" y1="0"
                          x2={`${innerPentIntersections[1][0]}%`} y2={`${innerPentIntersections[1][1]}%`}
-                         stroke="white" strokeWidth={props.strokeWidth} transform={`rotate(${i*fifthCircle} ${props.width*0.5} ${props.height*0.5})`} />);
+                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
 
         lines.push(<line x1={`${outerPentIntersections[0][0]}%`} y1={`${outerPentIntersections[0][1]}%`}
                          x2="50%" y2="0"
-                         stroke="white" strokeWidth={props.strokeWidth} transform={`rotate(${i*fifthCircle} ${props.width*0.5} ${props.height*0.5})`} />);
+                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
 
         lines.push(<line x1="50%" y1="0"
                          x2={`${outerPentIntersections[1][0]}%`} y2={`${outerPentIntersections[1][1]}%`}
-                         stroke="white" strokeWidth={props.strokeWidth} transform={`rotate(${i*fifthCircle} ${props.width*0.5} ${props.height*0.5})`} />);
+                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
 
         lines.push(<line x1={`${outestPentIntersections[0][0]}%`} y1={`${outestPentIntersections[0][1]}%`}
                          x2="50%" y2="0"
-                         stroke="white" strokeWidth={props.strokeWidth} transform={`rotate(${i*fifthCircle + fifthCircle/2} ${props.width*0.5} ${props.height*0.5})`} />);
+                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle + fifthCircle/2} ${props.size*0.5} ${props.size*0.5})`} />);
 
         lines.push(<line x1="50%" y1="0"
                          x2={`${outestPentIntersections[1][0]}%`} y2={`${outestPentIntersections[1][1]}%`}
-                         stroke="white" strokeWidth={props.strokeWidth} transform={`rotate(${i*fifthCircle + fifthCircle/2} ${props.width*0.5} ${props.height*0.5})`} />);
+                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle + fifthCircle/2} ${props.size*0.5} ${props.size*0.5})`} />);
 
 
         lines.push(<line x1={`${innerPentIntersections[0][0]}%`} y1={`${innerPentIntersections[0][1]}%`}
                          x2={`${innerPentIntersections[1][0]}%`} y2={`${innerPentIntersections[1][1]}%`}
-                         stroke="white" strokeWidth={props.strokeWidth} transform={`rotate(${i*fifthCircle} ${props.width*0.5} ${props.height*0.5})`} />);
+                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
     }
 
     return (
         <svg
-            width={props.width} height={props.height}
+            width={props.size} height={props.size}
             xmlns="http://www.w3.org/2000/svg"
         >
             <title>Pyzzazz Logo</title>

@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Logo width={300} height={300} strokeWidth={10} />
+        <Logo size={300} />
         <p id="logo-text">Pyzzazz</p>
         <p>
           Edit <code>src/App.js</code> and save to reload.
