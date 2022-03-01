@@ -2,7 +2,6 @@
     display: inline-flex;
     justify-content: space-around;
     background-color:#750027;
-    /*padding: 0.5rem 2rem;*/
     padding: 0;
     width:100%;
 }
@@ -20,7 +19,6 @@
     flex-basis: 50%;
     align-items: center;
     justify-content: space-around;
-    padding: 0.5rem;
 }
 
 .Logo {
@@ -31,10 +29,24 @@
 
 .NavLink {
     margin: 0;
-    padding: 0;
+    padding: 1rem;
     font-size: 1.5rem;
     color:white;
     font-family: "LEMON MILK", "sans-serif";
+    text-decoration: none;
+    box-sizing: border-box;
+    border-top: 0.75rem solid transparent;
+    border-bottom: 0.75rem solid transparent;
+}
+
+.NavLink:hover {
+    background-color: #ffdde8;
+    color: #750027;
+}
+
+.NavLink:active {
+    background-color: white;
+    color: #750027;
 }
 
 .Title {
@@ -44,4 +56,8 @@
     align-self: center;
     color:white;
     font-family: "LEMON MILK", "sans-serif";
+}
+
+.active {
+    border-bottom: 0.75rem solid white;
 }
