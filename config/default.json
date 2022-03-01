@@ -1,13 +1,13 @@
 {
-    "app": {
-        "port": 5000,
-        "logging": {
-            "file": true
-        }
-    },
-    "db": {
-        "redis": {
-            "url": "redis://0.0.0.0:6379"
-        }
+  "app": {
+    "port": 5000,
+    "logging": {
+      "file": true
     }
+  },
+  "db": {
+    "redis": {
+      "url": "redis://0.0.0.0:6379"
+    }
+  }
 }
