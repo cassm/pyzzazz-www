@@ -57,14 +57,15 @@ const Logo = props => {
         <svg
             width={props.size} height={props.size}
             xmlns="http://www.w3.org/2000/svg"
+            className="Logo"
         >
             <title>Pyzzazz Logo</title>
             <desc>An isometric view of a stellated icosahedron, rendered in white line-art over a radial gradient</desc>
             <defs>
                 <radialGradient id="RadialGradient">
-                    <stop offset="0%" stopColor="white"/>
+                    <stop offset="0%" stopColor={props.darkMode ? logoColour : "white"}/>
                     <stop offset="30%" stopColor="#FFCBD9FF" />
-                    <stop offset="100%" stopColor={logoColour}/>
+                    <stop offset="100%" stopColor={props.darkMode ? "white" : logoColour}/>
                 </radialGradient>
                 <mask id="lineMask" maskUnits="userSpaceOnUse">
                     {lines}
