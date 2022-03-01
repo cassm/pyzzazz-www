@@ -1,5 +1,4 @@
-import logo from './logo.svg';
-import { Logo } from './logo.js';
+import Logo from './logo.js';
 
 import './App.css';
 

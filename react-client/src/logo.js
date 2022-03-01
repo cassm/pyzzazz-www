@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Logo = props => {
+const Logo = props => {
     const logoColour="#750027";
     const fifthCircle = 360/5;
     const radiusToEdge = 1.1756;
@@ -74,3 +74,5 @@ export const Logo = props => {
         </svg>
     )
 }
+
+export default Logo;
