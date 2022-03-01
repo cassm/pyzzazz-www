@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <div className="Header">
       <div className="Splash">
-        <Logo size="62.5" darkMode={true}/>
+        <Logo size="62.5" darkMode={true} key="navLogo"/>
         <p className="Title">PYZZAZZ</p>
       </div>
       <div className="Nav">
