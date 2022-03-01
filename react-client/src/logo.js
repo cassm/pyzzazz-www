@@ -10,8 +10,9 @@ export const Logo = props => {
 
     const strokeWidth = props.size/25;
     const lines = [];
+    lines.push(<circle cx="50%" cy="50%" r="50%" fill="white" />);
     for (let i = 0; i < 5; i++) {
-        lines.push(<line x1="50%" y1="50%" x2="50%" y2="100%" stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
+        lines.push(<line x1="50%" y1="50%" x2="50%" y2="100%" stroke="black" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
 
         const innerPentIntersections = [[50 - 50*innerPentRadius*radiusToEdge*0.6, 50*(1-innerPentRadius)],
                                         [50 + 50*innerPentRadius*radiusToEdge*0.6, 50*(1-innerPentRadius)]];
@@ -24,32 +25,32 @@ export const Logo = props => {
 
         lines.push(<line x1={`${innerPentIntersections[0][0]}%`} y1={`${innerPentIntersections[0][1]}%`}
                          x2="50%" y2="0"
-                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
+                         stroke="black" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
 
         lines.push(<line x1="50%" y1="0"
                          x2={`${innerPentIntersections[1][0]}%`} y2={`${innerPentIntersections[1][1]}%`}
-                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
+                         stroke="black" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
 
         lines.push(<line x1={`${outerPentIntersections[0][0]}%`} y1={`${outerPentIntersections[0][1]}%`}
                          x2="50%" y2="0"
-                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
+                         stroke="black" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
 
         lines.push(<line x1="50%" y1="0"
                          x2={`${outerPentIntersections[1][0]}%`} y2={`${outerPentIntersections[1][1]}%`}
-                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
+                         stroke="black" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
 
         lines.push(<line x1={`${outestPentIntersections[0][0]}%`} y1={`${outestPentIntersections[0][1]}%`}
                          x2="50%" y2="0"
-                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle + fifthCircle/2} ${props.size*0.5} ${props.size*0.5})`} />);
+                         stroke="black" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle + fifthCircle/2} ${props.size*0.5} ${props.size*0.5})`} />);
 
         lines.push(<line x1="50%" y1="0"
                          x2={`${outestPentIntersections[1][0]}%`} y2={`${outestPentIntersections[1][1]}%`}
-                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle + fifthCircle/2} ${props.size*0.5} ${props.size*0.5})`} />);
+                         stroke="black" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle + fifthCircle/2} ${props.size*0.5} ${props.size*0.5})`} />);
 
 
         lines.push(<line x1={`${innerPentIntersections[0][0]}%`} y1={`${innerPentIntersections[0][1]}%`}
                          x2={`${innerPentIntersections[1][0]}%`} y2={`${innerPentIntersections[1][1]}%`}
-                         stroke="white" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
+                         stroke="black" strokeWidth={strokeWidth} transform={`rotate(${i*fifthCircle} ${props.size*0.5} ${props.size*0.5})`} />);
     }
 
     return (
@@ -65,10 +66,11 @@ export const Logo = props => {
                     <stop offset="30%" stopColor="#FFCBD9FF" />
                     <stop offset="100%" stopColor={logoColour}/>
                 </radialGradient>
+                <mask id="lineMask" maskUnits="userSpaceOnUse">
+                    {lines}
+                </mask>mask>
             </defs>
-            <circle cx="50%" cy="50%" r="50%" fill="url(#RadialGradient)" />
-            {lines}
-
+            <circle cx="50%" cy="50%" r="50%" fill="url(#RadialGradient)" mask="url(#lineMask)"/>
         </svg>
     )
 }
