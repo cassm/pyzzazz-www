@@ -1,0 +1,47 @@
+.Header {
+    display: inline-flex;
+    justify-content: space-around;
+    background-color:#750027;
+    /*padding: 0.5rem 2rem;*/
+    padding: 0;
+    width:100%;
+}
+
+.Splash {
+    display: inline-flex;
+    align-content: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 0;
+}
+
+.Nav {
+    display: inline-flex;
+    flex-basis: 50%;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0.5rem;
+}
+
+.Logo {
+    margin: 0 0 0 1rem;
+    padding: 0;
+    align-self: center;
+}
+
+.NavLink {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+    color:white;
+    font-family: "LEMON MILK", "sans-serif";
+}
+
+.Title {
+    margin: 0;
+    padding: 0;
+    font-size: 62.5px;
+    align-self: center;
+    color:white;
+    font-family: "LEMON MILK", "sans-serif";
+}
