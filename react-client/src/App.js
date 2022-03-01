@@ -1,12 +1,13 @@
 import Logo from './logo.js';
+import Header from './Header.js';
 
 import './App.css';
 
 function App() {
   return (
     <div className="App">
+      <Header />
       <header className="App-header">
-        <Logo size={300} />
         <p id="logo-text">Pyzzazz</p>
         <p>
           Edit <code>src/App.js</code> and save to reload.
