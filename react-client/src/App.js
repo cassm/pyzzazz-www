@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Routes} from 'react-router-dom';
-import Header from './Header.js';
+import NavBar from './NavBar.js';
 import Configuration from './Configuration.js';
 import Control from './Control.js';
 import Status from './Status.js';
@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header/>
+        <NavBar/>
         <Routes>
           <Route path="/configuration" element={<Configuration/>}/>
           <Route path="/control" element={<Control/>}/>

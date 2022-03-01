@@ -3,7 +3,7 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 import Logo from './logo.js';
 
-import './Header.css';
+import './NavBar.css';
 
 const getCurrentPage = () => {
   if (window.location.pathname === '/') {
@@ -14,7 +14,7 @@ const getCurrentPage = () => {
 }
 
 
-const Header = () => {
+const NavBar = () => {
   const [active, setActive] = useState(getCurrentPage());
 
   const links = ['status', 'configuration', 'control', 'visualiser'].map(pageName => {
@@ -31,7 +31,7 @@ const Header = () => {
   })
 
   return (
-    <div className="Header">
+    <div className="NavBar">
       <div className="Splash">
         <Logo size="62.5" darkMode={true} key="navLogo"/>
         <p className="Title">PYZZAZZ</p>
@@ -43,4 +43,4 @@ const Header = () => {
   );
 }
 
-export default Header;
+export default NavBar;
