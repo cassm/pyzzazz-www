@@ -53,9 +53,9 @@ const FpsView = props => {
         </BarChart>
       </ResponsiveContainer>
 
-      <h2 className="fpsCounter">{props.viewName} running at {fpsData.length > 0 ?
+      <h3 className="fpsCounter">{props.viewName} running at {fpsData.length > 0 ?
         (fpsData.reduce((a, b) => ({pv: a.pv + b.pv})).pv / fpsData.length).toFixed(1) :
-        '---'} FPS</h2>
+        '---'} FPS</h3>
     </div>);
 }
 
