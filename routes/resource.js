@@ -29,6 +29,9 @@ router.get('/:resource', async function(req, res, next) {
     case 'overlays':
       value = await JSON.parse(await r.get('pyzzazz:overlays'));
       break;
+    case 'fps':
+      value = await JSON.parse(await r.get('pyzzazz:fps'));
+      break;
     default:
       winston.info(`Request for invalid resource "${resource}"`);
   }
