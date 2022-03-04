@@ -58,7 +58,7 @@ const Visualiser = props => {
     return <orbitControls ref={controls} args={[camera, domElement]}/>;
   }
 
-  let colours = props.coords.map(_ => [0.5, 0.0, 0.25]);
+  let colours = props.coords.map(_ => [0.4588, 0.0, 0.1529]);
   let [frame, setFrame] = useState(false);
 
   useEffect(() => {
