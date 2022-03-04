@@ -35,7 +35,9 @@ const Visualiser = props => {
       <CameraControls/>
       <ambientLight />
       {
-        props.coords.map(coord => <Led position={coord} key={uuidv4()}/>)
+        props.coords.map(coord => <Led
+          position={[coord[1],coord[2],coord[0]]}
+          key={uuidv4()}/>)
       }
     </Canvas>
   );
