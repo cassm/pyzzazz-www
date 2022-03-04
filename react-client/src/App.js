@@ -43,7 +43,7 @@ function App() {
           <Route path="/control" element={<Control/>}/>
           <Route path={"/status"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
           <Route path={"/"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
-          <Route path="/visualiser" element={<Visualiser/>}/>
+          <Route path="/visualiser" element={<Visualiser coords={coords}/>}/>
         </Routes>
       </Router>
     </div>
