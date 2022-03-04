@@ -37,14 +37,16 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar/>
-        <Routes>
-          <Route path="/configuration" element={<Configuration/>}/>
-          <Route path="/control" element={<Control/>}/>
-          <Route path={"/status"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
-          <Route path={"/"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
-          <Route path="/visualiser" element={<Visualiser coords={coords} loading={loading}/>}/>
-        </Routes>
+        <NavBar className="NavBar"/>
+        <div className="Container">
+          <Routes>
+            <Route path="/configuration" element={<Configuration/>}/>
+            <Route path="/control" element={<Control/>}/>
+            <Route path={"/status"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
+            <Route path={"/"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
+            <Route path="/visualiser" element={<Visualiser coords={coords} loading={loading}/>}/>
+          </Routes>
+        </div>
       </Router>
     </div>
   );
