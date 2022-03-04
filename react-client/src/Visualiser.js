@@ -90,13 +90,20 @@ const Visualiser = props => {
   }, [props.loading])
 
   const VisualiserCanvas = (props) => {
+    const yTotal = props.coords.reduce(function sumZ(a, b) { return a + b[2];}, 0);
+    const yAvg = yTotal / props.coords.length;
+
+    const zMax = props.coords.reduce(function sumZ(a, b) { return Math.max(a, b[0]);}, 0);
+    console.log(zMax);
+
+
     return (
-      <Canvas height="100%">
+      <Canvas camera={{ fov: 75, position: [0,0, zMax*2]}} height="100%">
         <CameraControls/>
         <ambientLight/>
         {
           props.coords.map((coord, index) => <Led
-            position={[coord[1], coord[2], coord[0]]}
+            position={[coord[1], coord[2]-yAvg*2, coord[0]]}
             key={uuidv4()}
             colour={colours[index]}/>)
         }
