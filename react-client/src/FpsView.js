@@ -3,7 +3,7 @@ import {Color} from "three";
 import {Bar, BarChart, Cell, ResponsiveContainer, YAxis} from "recharts";
 
 const FpsView = props => {
-  const [fpsData, setFpsData] = useState([]);
+  const [fpsData, setFpsData] = useState(new Array(150).fill({pv: 0}));
 
   useEffect(() => {
     let isCancelled = false;
@@ -53,8 +53,8 @@ const FpsView = props => {
         </BarChart>
       </ResponsiveContainer>
 
-      <h3 className="fpsCounter">{props.viewName} running at {fpsData.length > 0 ?
-        (fpsData.reduce((a, b) => ({pv: a.pv + b.pv})).pv / fpsData.length).toFixed(1) :
+      <h3 className="fpsCounter">{props.viewName} running at {fpsData.filter(x => x.pv !== 0).length > 0 ?
+        (fpsData.reduce((a, b) => ({pv: a.pv + b.pv})).pv / fpsData.filter(x => x.pv !== 0).length).toFixed(1) :
         '---'} FPS</h3>
     </div>);
 }
