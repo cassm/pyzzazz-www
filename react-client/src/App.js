@@ -37,9 +37,9 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar className="NavBar"/>
         <div className="Container">
-          <Routes>
+        <NavBar className="NavBar"/>
+          <Routes class="PageBody">
             <Route path="/configuration" element={<Configuration/>}/>
             <Route path="/control" element={<Control/>}/>
             <Route path={"/status"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>

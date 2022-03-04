@@ -14,13 +14,12 @@ body {
   color: #61dafb;
 }
 
-.NavBar {
-  height: 5.5rem;
+.Container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-.Container {
-  height: calc(100% - 5.5rem);
-}
 
 h1, h2 {
   font-family: "LEMON MILK", "sans-serif";
