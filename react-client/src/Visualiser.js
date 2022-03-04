@@ -42,7 +42,7 @@ const Visualiser = props => {
       <mesh
         {...props}
         scale={0.05}>
-        <sphereGeometry attach="geometry" args={[0.15, 3, 3]}/>
+        <sphereGeometry attach="geometry" args={[0.25, 3, 3]}/>
         <shaderMaterial attach="material" {...generateMaterialData(props.colour)}/>
       </mesh>
     );
