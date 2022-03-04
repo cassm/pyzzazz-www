@@ -62,30 +62,32 @@ const Visualiser = props => {
   let [frame, setFrame] = useState(false);
 
   useEffect(() => {
-    const socket = io.connect('/');
-    socket.on('connect', function () {
-      socket.emit('ready');
-      socket.on('colours', async (data) => {
-        if (data) {
-          data = await JSON.parse(data);
-          let pixel = 0;
-          let channel = 0;
-          let pixelLength = colours.length;
-          let channelLength = 3;
+    if (!props.loading) {
+      const socket = io.connect('/');
+      socket.on('connect', function () {
+        socket.emit('ready');
+        socket.on('colours', async (data) => {
+          if (data) {
+            data = await JSON.parse(data);
+            let pixel = 0;
+            let channel = 0;
+            let pixelLength = colours.length;
+            let channelLength = 3;
 
-          while (pixel < pixelLength) {
-            channel = 0;
+            while (pixel < pixelLength) {
+              channel = 0;
 
-            while (channel < channelLength) {
-              colours[pixel][channel] = data[pixel][channel];
-              channel++;
+              while (channel < channelLength) {
+                colours[pixel][channel] = data[pixel][channel];
+                channel++;
+              }
+              pixel++;
             }
-            pixel++;
           }
-        }
+        });
       });
-    });
-  }, [])
+    }
+  }, [props.loading])
 
   const VisualiserCanvas = (props) => {
     return (
