@@ -1,11 +1,13 @@
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Routes} from 'react-router-dom';
 import {useEffect, useState} from 'react';
-import NavBar from './NavBar.js';
+import {ThemeProvider} from "@mui/material/styles";
+import ResponsiveAppBar from './ResponsiveAppBar.js';
 import Configuration from './Configuration.js';
 import Control from './Control.js';
 import Status from './Status.js';
 import Visualiser from './Visualiser.js';
+import {theme} from './common/theme'
 
 import './App.css';
 
@@ -37,16 +39,18 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <div className="Container">
-        <NavBar className="NavBar"/>
-          <Routes class="PageBody">
-            <Route path="/configuration" element={<Configuration/>}/>
-            <Route path="/control" element={<Control/>}/>
-            <Route path={"/status"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
-            <Route path={"/"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
-            <Route path="/visualiser" element={<Visualiser coords={coords} loading={loading}/>}/>
-          </Routes>
-        </div>
+        <ThemeProvider theme={theme}>
+          <div className="Container">
+            <ResponsiveAppBar/>
+            <Routes class="PageBody">
+              <Route path="/configuration" element={<Configuration/>}/>
+              <Route path="/control" element={<Control/>}/>
+              <Route path={"/status"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
+              <Route path={"/"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
+              <Route path="/visualiser" element={<Visualiser coords={coords} loading={loading}/>}/>
+            </Routes>
+          </div>
+        </ThemeProvider>
       </Router>
     </div>
   );
