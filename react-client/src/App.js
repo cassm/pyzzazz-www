@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     async function getResources() {
-      async function fetchResource (resource) {
+      async function fetchResource(resource) {
         const res = await fetch(`/resource/${resource}`);
         return await res.json();
       }
