@@ -1,5 +1,9 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+import Typography from "@mui/material/Typography";
+import Stack from '@mui/material/Stack';
 import {v4 as uuidv4} from 'uuid';
 
 const Control = props => {
@@ -9,17 +13,17 @@ const Control = props => {
   const [sliders, setSliders] = useState({});
   const [palettes, setPalettes] = useState([]);
 
-  async function fetchResource (resource) {
+  async function fetchResource(resource) {
     const res = await fetch(`/resource/${resource}`);
     return await res.json();
   }
 
   useEffect(() => {
-    const fetchControls = async() => {
+    const fetchControls = async () => {
       setPatterns(await fetchResource('patterns'))
       setOverlays(await fetchResource('overlays'))
       setPalettes(await fetchResource('palettes'))
-      updateSliders( await fetchResource('sliders'));
+      updateSliders(await fetchResource('sliders'));
     }
 
     fetchControls();
@@ -68,29 +72,41 @@ const Control = props => {
     await sendCmd("led_fix", "palette", e.target.id, 1);
   }
 
-  async function handleSliderChange(e) {
-    e.target.innerHTML = e.target.value;
-    await sendCmd("master_settings", "slider", e.target.id, e.target.value);
+  const handleSliderChange = (name) => async (e, value) => {
+    console.log(`${name}::${value}`);
+    await sendCmd("master_settings", "slider", name, value);
   }
 
   const patternButtons = patterns.map(patternName => {
-    return(<button id={patternName} key={uuidv4()} onClick={handlePatternButton}>{patternName}</button>);
+    return (<button id={patternName} key={uuidv4()} onClick={handlePatternButton}>{patternName}</button>);
   })
 
   const overlayButtons = overlays.map(overlayName => {
-    return(<button id={overlayName} key={uuidv4()} onClick={handleOverlayButton}>{overlayName}</button>);
+    return (<button id={overlayName} key={uuidv4()} onClick={handleOverlayButton}>{overlayName}</button>);
   })
 
   const paletteButtons = palettes.map(paletteName => {
-    return(<button id={paletteName} key={uuidv4()} onClick={handlePaletteButton}>{paletteName}</button>);
+    return (<button id={paletteName} key={uuidv4()} onClick={handlePaletteButton}>{paletteName}</button>);
   })
 
   const sliderControls = Object.entries(sliders).map((key, entry) => {
     const [name, value] = key;
-    return [
-      <label htmlFor={name} key={uuidv4()}>{name}</label>,
-      <input id={name} type="range" key={uuidv4()} min="0" max="1024" step="1" defaultValue={value} onChange={handleSliderChange} />
-    ]
+    const label = name.replace(/_/g, ' ');
+    return (
+      <Box sx={{width: '50%'}} key={uuidv4()}>
+        <Typography key={uuidv4()}>
+          {label}
+        </Typography>
+        <Slider
+          key={uuidv4()}
+          aria-label={label}
+          defaultValue={value}
+          onChange={handleSliderChange(name)}
+          min={0}
+          max={1024}
+        />
+      </Box>
+    )
   })
 
   return (
@@ -106,7 +122,9 @@ const Control = props => {
           <h2>Palettes</h2>
           {paletteButtons}
           <h2>Sliders</h2>
-          {sliderControls}
+          <Stack spacing={2}>
+            {sliderControls}
+          </Stack>
         </form>
       }
     </div>
