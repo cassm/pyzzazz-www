@@ -87,16 +87,16 @@ const Logo = props => {
       <desc>An isometric view of a stellated icosahedron, rendered in white line-art over a radial gradient</desc>
       <defs>
         <radialGradient id={radialGradientName}>
-          <stop offset="0%" stopColor={props.darkMode ? logoColour : "white"}/>
+          <stop offset="0%" stopColor={fgColour}/>
           <stop offset="30%" stopColor="#FFCBD9FF"/>
-          <stop offset="100%" stopColor={props.darkMode ? "white" : logoColour}/>
+          <stop offset="100%" stopColor={fgColour}/>
         </radialGradient>
         <mask id={maskName} maskUnits="userSpaceOnUse">
           {lines}
         </mask>
         mask>
       </defs>
-      <circle cx="50%" cy="50%" r="50%" fill={`url(#${radialGradientName})`} mask={`url(#${maskName})`} key={uuidv4()}/>
+      <circle cx="50%" cy="50%" r="50%" fill={props.gradient ? `url(#${radialGradientName})` : fgColour} mask={`url(#${maskName})`} key={uuidv4()}/>
     </svg>
   )
 }
