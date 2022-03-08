@@ -7,6 +7,7 @@ const Control = props => {
   const [patterns, setPatterns] = useState([]);
   const [overlays, setOverlays] = useState([]);
   const [sliders, setSliders] = useState({});
+  const [palettes, setPalettes] = useState([]);
 
   async function fetchResource (resource) {
     const res = await fetch(`/resource/${resource}`);
@@ -17,6 +18,7 @@ const Control = props => {
     const fetchControls = async() => {
       setPatterns(await fetchResource('patterns'))
       setOverlays(await fetchResource('overlays'))
+      setPalettes(await fetchResource('palettes'))
       updateSliders( await fetchResource('sliders'));
     }
 
@@ -61,6 +63,11 @@ const Control = props => {
     await sendCmd("led_fix", "overlay", e.target.id, 1);
   }
 
+  async function handlePaletteButton(e) {
+    e.preventDefault();
+    await sendCmd("led_fix", "palette", e.target.id, 1);
+  }
+
   async function handleSliderChange(e) {
     e.target.innerHTML = e.target.value;
     await sendCmd("master_settings", "slider", e.target.id, e.target.value);
@@ -72,6 +79,10 @@ const Control = props => {
 
   const overlayButtons = overlays.map(overlayName => {
     return(<button id={overlayName} key={uuidv4()} onClick={handleOverlayButton}>{overlayName}</button>);
+  })
+
+  const paletteButtons = palettes.map(paletteName => {
+    return(<button id={paletteName} key={uuidv4()} onClick={handlePaletteButton}>{paletteName}</button>);
   })
 
   const sliderControls = Object.entries(sliders).map((key, entry) => {
@@ -92,6 +103,8 @@ const Control = props => {
           {patternButtons}
           <h2>Overlays</h2>
           {overlayButtons}
+          <h2>Palettes</h2>
+          {paletteButtons}
           <h2>Sliders</h2>
           {sliderControls}
         </form>
