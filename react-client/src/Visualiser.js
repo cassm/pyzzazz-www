@@ -94,8 +94,6 @@ const Visualiser = props => {
     const yAvg = yTotal / props.coords.length;
 
     const zMax = props.coords.reduce(function sumZ(a, b) { return Math.max(a, b[0]);}, 0);
-    console.log(zMax);
-
 
     return (
       <Canvas camera={{ fov: 75, position: [0,0, zMax*2]}} height="100%">
