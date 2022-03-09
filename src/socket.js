@@ -8,8 +8,10 @@ const r = redis.client.getInstance();
 function createSocketServer(http) {
   const socket = new Server(http);
 
-  socket.on('connection', socket => {
-    winston.info('Client connected to Socket.io server')
+  const colourSocket = socket.of('/resource/colours')
+
+  colourSocket.on('connection', socket => {
+    winston.info('Client connected to colour socket')
 
     // we want to do this differently to handle multiple clients
     async function updateColours() {
@@ -22,7 +24,7 @@ function createSocketServer(http) {
       let colourUpdateInterval = setInterval(updateColours, 1000 / 30);
 
       socket.on('disconnect', socket => {
-        winston.info('Client disconnected from Socket.io server')
+        winston.info('Client disconnected from colour socket')
         clearInterval(colourUpdateInterval);
       })
     });

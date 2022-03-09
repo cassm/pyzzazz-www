@@ -63,7 +63,7 @@ const Visualiser = props => {
 
   useEffect(() => {
     if (!props.loading) {
-      const socket = io.connect('/');
+      const socket = io.connect('/resource/colours');
       socket.on('connect', function () {
         socket.emit('ready');
         socket.on('colours', async (data) => {
