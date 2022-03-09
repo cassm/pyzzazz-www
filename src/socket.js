@@ -29,6 +29,21 @@ function createSocketServer(http) {
       })
     });
   })
+
+  const controlSocket = socket.of('/control');
+
+  controlSocket.on('connection', socket => {
+    winston.info('Client connected to control socket')
+
+    socket.on('control', async cmds => {
+      winston.debug(`client command received: ${JSON.stringify(cmds)}`);
+      await r.rPush('pyzzazz:commands', JSON.stringify(cmds));
+    });
+
+    socket.on('disconnect', socket => {
+      winston.info('Client disconnected from control socket')
+    })
+  });
 }
 
 module.exports = createSocketServer;
