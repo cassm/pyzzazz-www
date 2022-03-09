@@ -4,7 +4,9 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Typography from "@mui/material/Typography";
 import Stack from '@mui/material/Stack';
+import useInterval from 'use-interval';
 import {v4 as uuidv4} from 'uuid';
+import {io} from "socket.io-client";
 
 const Control = props => {
   const [loading, setLoading] = useState(true);
@@ -12,6 +14,32 @@ const Control = props => {
   const [overlays, setOverlays] = useState([]);
   const [sliders, setSliders] = useState({});
   const [palettes, setPalettes] = useState([]);
+  const [socket, setSocket] = useState();
+
+  useEffect(() => {
+    setSocket(io.connect('/control'));
+  }, [])
+
+  const cmdQueue = [];
+
+  const queueCmd = async (target_keyword, type, name, value) => {
+    cmdQueue.push({
+      target_keyword,
+      command: {
+        type,
+        name,
+        args: {},
+      },
+      value
+    });
+  };
+
+  useInterval(async () => {
+    if (cmdQueue.length > 0) {
+      await socket.emit('control', cmdQueue);
+      cmdQueue.splice(0,cmdQueue.length);
+    }
+  }, 1000/30);
 
   async function fetchResource(resource) {
     const res = await fetch(`/resource/${resource}`);
@@ -40,41 +68,23 @@ const Control = props => {
     setSliders(sliderVals);
   }
 
-  const sendCmd = async (target_keyword, type, name, value) => {
-    const requestOptions = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        target_keyword,
-        command: {
-          type,
-          name,
-          args: {},
-        },
-        value
-      })
-    }
-    await fetch('/control', requestOptions);
-  }
-
   async function handlePatternButton(e) {
     e.preventDefault();
-    await sendCmd("led_fix", "pattern", e.target.id, 1);
+    queueCmd("led_fix", "pattern", e.target.id, 1);
   }
 
   async function handleOverlayButton(e) {
     e.preventDefault();
-    await sendCmd("led_fix", "overlay", e.target.id, 1);
+    queueCmd("led_fix", "overlay", e.target.id, 1);
   }
 
   async function handlePaletteButton(e) {
     e.preventDefault();
-    await sendCmd("led_fix", "palette", e.target.id, 1);
+    queueCmd("led_fix", "palette", e.target.id, 1);
   }
 
   const handleSliderChange = (name) => async (e, value) => {
-    console.log(`${name}::${value}`);
-    await sendCmd("master_settings", "slider", name, value);
+    await queueCmd("master_settings", "slider", name, value);
   }
 
   const patternButtons = patterns.map(patternName => {
