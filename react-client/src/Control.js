@@ -70,19 +70,9 @@ const Control = props => {
     setSliders(sliderVals);
   }
 
-  async function handlePatternButton(e) {
+  const handleControlButton = (type) => async (e) => {
     e.preventDefault();
-    queueCmd("led_fix", "pattern", e.target.id, 1);
-  }
-
-  async function handleOverlayButton(e) {
-    e.preventDefault();
-    queueCmd("led_fix", "overlay", e.target.id, 1);
-  }
-
-  async function handlePaletteButton(e) {
-    e.preventDefault();
-    queueCmd("led_fix", "palette", e.target.id, 1);
+    queueCmd("led_fix", type, e.target.id, 1);
   }
 
   const handleSliderChange = (name) => async (e, value) => {
@@ -90,15 +80,15 @@ const Control = props => {
   }
 
   const patternButtons = patterns.map(patternName => {
-    return (<Button variant='contained' id={patternName} key={uuidv4()} onClick={handlePatternButton}>{patternName}</Button>);
+    return (<Button variant='contained' id={patternName} key={uuidv4()} onClick={handleControlButton('pattern')}>{patternName}</Button>);
   })
 
   const overlayButtons = overlays.map(overlayName => {
-    return (<Button variant='contained' id={overlayName} key={uuidv4()} onClick={handleOverlayButton}>{overlayName}</Button>);
+    return (<Button variant='contained' id={overlayName} key={uuidv4()} onClick={handleControlButton('overlay')}>{overlayName}</Button>);
   })
 
   const paletteButtons = palettes.map(paletteName => {
-    return (<Button variant='contained' id={paletteName} key={uuidv4()} onClick={handlePaletteButton}>{paletteName}</Button>);
+    return (<Button variant='contained' id={paletteName} key={uuidv4()} onClick={handleControlButton('palette')}>{paletteName}</Button>);
   })
 
   const sliderControls = Object.entries(sliders).map((key, entry) => {
