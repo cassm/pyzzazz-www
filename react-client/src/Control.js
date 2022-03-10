@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import Typography from "@mui/material/Typography";
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import useInterval from 'use-interval';
 import {v4 as uuidv4} from 'uuid';
 import {io} from "socket.io-client";
@@ -88,15 +90,15 @@ const Control = props => {
   }
 
   const patternButtons = patterns.map(patternName => {
-    return (<button id={patternName} key={uuidv4()} onClick={handlePatternButton}>{patternName}</button>);
+    return (<Button variant='contained' id={patternName} key={uuidv4()} onClick={handlePatternButton}>{patternName}</Button>);
   })
 
   const overlayButtons = overlays.map(overlayName => {
-    return (<button id={overlayName} key={uuidv4()} onClick={handleOverlayButton}>{overlayName}</button>);
+    return (<Button variant='contained' id={overlayName} key={uuidv4()} onClick={handleOverlayButton}>{overlayName}</Button>);
   })
 
   const paletteButtons = palettes.map(paletteName => {
-    return (<button id={paletteName} key={uuidv4()} onClick={handlePaletteButton}>{paletteName}</button>);
+    return (<Button variant='contained' id={paletteName} key={uuidv4()} onClick={handlePaletteButton}>{paletteName}</Button>);
   })
 
   const sliderControls = Object.entries(sliders).map((key, entry) => {
@@ -120,24 +122,30 @@ const Control = props => {
   })
 
   return (
-    <div>
-      <h1>Control</h1>
+    <Box sx={{width: '100%', height: '100%'}}>
+      <Typography variant="h2">Control</Typography>
       {loading ?
-        <h2>Loading....</h2> :
-        <form>
-          <h2>Patterns</h2>
-          {patternButtons}
-          <h2>Overlays</h2>
-          {overlayButtons}
-          <h2>Palettes</h2>
-          {paletteButtons}
-          <h2>Sliders</h2>
+        <Typography variant='h2'>Loading....</Typography> :
+        <Box sx={{width: '100%', height: '100%'}}>
+          <Typography variant='h2'>Patterns</Typography>
+          <ButtonGroup variant='contained' aria-label='pattern selection button group'>
+            {patternButtons}
+          </ButtonGroup>
+          <Typography variant='h2'>Overlays</Typography>
+          <ButtonGroup variant='contained' aria-label='pattern selection button group'>
+            {overlayButtons}
+          </ButtonGroup>
+          <Typography variant='h2'>Palettes</Typography>
+          <ButtonGroup variant='contained' aria-label='pattern selection button group'>
+            {paletteButtons}
+          </ButtonGroup>
+          <Typography variant='h2'>Sliders</Typography>
           <Stack spacing={2}>
             {sliderControls}
           </Stack>
-        </form>
+        </Box>
       }
-    </div>
+    </Box>
   )
 }
 
