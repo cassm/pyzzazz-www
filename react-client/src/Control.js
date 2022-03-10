@@ -70,24 +70,65 @@ const Control = props => {
     setSliderValues(sliderVals);
   }
 
-  const handleControlButton = (type) => async (e) => {
+  const handleControlButton = (type, name) => async (e) => {
     e.preventDefault();
-    await queueCmd("led_fix", type, e.target.id, 1);
+    await queueCmd("led_fix", type, name, 1);
   }
 
   const handleSliderChange = (name) => async (e, value) => {
     await queueCmd("master_settings", "slider", name, value);
   }
 
-  const generateButtonGroup = (names, type) => {
+  const wrapControls = (controls) => {
     return (
-      <ButtonGroup variant='contained' aria-label={`${type} selection button group`}>
+      <Box
+        bgcolor="primary.main"
+        width="75%"
+        sx={{
+          boxShadow: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          mb: 3,
+          p: 2,
+          alignItems: 'center',
+          borderRadius: '1rem'
+        }}
+      >
+        {controls}
+      </Box>
+    )
+
+  }
+
+  const generateButtonGroup = (title, names, type) => {
+    return (
+      [<Typography variant='h5' color='secondary.light' sx={{mb: 2}} key={uuidv4()}>{title}</Typography>,
+      <ButtonGroup
+        color='secondary'
+        sx={{
+          borderRadius: 2,
+          display: 'flex',
+          flexBasis: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: 1,
+        }}
+        key={uuidv4()}
+        aria-label={`${type} selection button group`}
+      >
         {names.map(name =>
-          <Button variant='contained' id={name} key={uuidv4()} onClick={handleControlButton(type)}>
-            {name.replace(/_/g, ' ')}
+          <Button
+            variant='text'
+            sx={{
+              borderRadius: '2rem'
+            }}
+            id={name}
+            key={uuidv4()}
+            onClick={handleControlButton(type, name)}>
+            <Typography>{name.replace(/_/g, ' ')}</Typography>
           </Button>
         )}
-      </ButtonGroup>
+      </ButtonGroup>]
     );
   }
 
@@ -97,8 +138,8 @@ const Control = props => {
     Object.entries(sliderValues).map((key, entry) => {
       const [name, value] = key;
       const label = name.replace(/_/g, ' ');
-      sliders.push (<Box sx={{width: '50%'}} key={uuidv4()}>
-        <Typography key={uuidv4()}>
+      sliders.push (<Box key={uuidv4()}>
+        <Typography color="secondary" key={uuidv4()}>
           {label}
         </Typography>
         <Slider
@@ -108,11 +149,16 @@ const Control = props => {
           onChange={handleSliderChange(name)}
           min={0}
           max={1024}
+          color="secondary"
+          sx={{
+            width: '75%'
+          }}
         />
       </Box>);
     });
     return (
-      <Stack spacing={2}>
+
+      <Stack spacing={2} width='100%'>
         {sliders}
       </Stack>
     );
@@ -121,18 +167,20 @@ const Control = props => {
 
   return (
     <Box sx={{width: '100%', height: '100%'}}>
-      <Typography variant="h3">Control</Typography>
+      <Typography variant="h3" color="primary" sx={{my: 4}}>Control</Typography>
       {loading ?
         <Typography variant='h4'>Loading....</Typography> :
-        <Box sx={{width: '100%', height: '100%'}}>
-          <Typography variant='h4'>Patterns</Typography>
-          {generateButtonGroup(patternNames, 'pattern')}
-          <Typography variant='h4'>Overlays</Typography>
-          {generateButtonGroup(overlayNames, 'overlay')}
-          <Typography variant='h4'>Palettes</Typography>
-          {generateButtonGroup(paletteNames, 'palette')}
-          <Typography variant='h4'>Sliders</Typography>
-          {generateSliderGroup()}
+        <Box sx={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}>
+          {wrapControls(generateButtonGroup('Patterns', patternNames, 'pattern'))}
+          {wrapControls(generateButtonGroup('Overlays', overlayNames, 'overlay'))}
+          {wrapControls(generateButtonGroup('Palettes', paletteNames, 'palette'))}
+          {wrapControls(generateSliderGroup())}
         </Box>
       }
     </Box>
