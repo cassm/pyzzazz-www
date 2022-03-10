@@ -12,10 +12,11 @@ import {io} from "socket.io-client";
 
 const Control = props => {
   const [loading, setLoading] = useState(true);
-  const [patterns, setPatterns] = useState([]);
-  const [overlays, setOverlays] = useState([]);
-  const [sliders, setSliders] = useState({});
-  const [palettes, setPalettes] = useState([]);
+  const [patternNames, setPatternNames] = useState([]);
+  const [overlayNames, setOverlayNames] = useState([]);
+  const [sliderValues, setSliderValues] = useState({});
+  const [paletteNames, setPaletteNames] = useState([]);
+
   const [socket, setSocket] = useState();
 
   useEffect(() => {
@@ -48,17 +49,16 @@ const Control = props => {
     return await res.json();
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     const fetchControls = async () => {
-      setPatterns(await fetchResource('patterns'))
-      setOverlays(await fetchResource('overlays'))
-      setPalettes(await fetchResource('palettes'))
       updateSliders(await fetchResource('sliders'));
+      setPatternNames(await fetchResource('patterns'))
+      setOverlayNames(await fetchResource('overlays'))
+      setPaletteNames(await fetchResource('palettes'))
     }
-
-    fetchControls();
+    await fetchControls();
     setLoading(false);
-  }, [])
+  }, []);
 
   const updateSliders = (sliderVals) => {
     for (const key in sliderVals) {
@@ -67,35 +67,37 @@ const Control = props => {
       }
     }
 
-    setSliders(sliderVals);
+    setSliderValues(sliderVals);
   }
 
   const handleControlButton = (type) => async (e) => {
     e.preventDefault();
-    queueCmd("led_fix", type, e.target.id, 1);
+    await queueCmd("led_fix", type, e.target.id, 1);
   }
 
   const handleSliderChange = (name) => async (e, value) => {
     await queueCmd("master_settings", "slider", name, value);
   }
 
-  const patternButtons = patterns.map(patternName => {
-    return (<Button variant='contained' id={patternName} key={uuidv4()} onClick={handleControlButton('pattern')}>{patternName}</Button>);
-  })
-
-  const overlayButtons = overlays.map(overlayName => {
-    return (<Button variant='contained' id={overlayName} key={uuidv4()} onClick={handleControlButton('overlay')}>{overlayName}</Button>);
-  })
-
-  const paletteButtons = palettes.map(paletteName => {
-    return (<Button variant='contained' id={paletteName} key={uuidv4()} onClick={handleControlButton('palette')}>{paletteName}</Button>);
-  })
-
-  const sliderControls = Object.entries(sliders).map((key, entry) => {
-    const [name, value] = key;
-    const label = name.replace(/_/g, ' ');
+  const generateButtonGroup = (names, type) => {
     return (
-      <Box sx={{width: '50%'}} key={uuidv4()}>
+      <ButtonGroup variant='contained' aria-label={`${type} selection button group`}>
+        {names.map(name =>
+          <Button variant='contained' id={name} key={uuidv4()} onClick={handleControlButton(type)}>
+            {name.replace(/_/g, ' ')}
+          </Button>
+        )}
+      </ButtonGroup>
+    );
+  }
+
+  const generateSliderGroup = () => {
+    const sliders = [];
+
+    Object.entries(sliderValues).map((key, entry) => {
+      const [name, value] = key;
+      const label = name.replace(/_/g, ' ');
+      sliders.push (<Box sx={{width: '50%'}} key={uuidv4()}>
         <Typography key={uuidv4()}>
           {label}
         </Typography>
@@ -107,32 +109,30 @@ const Control = props => {
           min={0}
           max={1024}
         />
-      </Box>
-    )
-  })
+      </Box>);
+    });
+    return (
+      <Stack spacing={2}>
+        {sliders}
+      </Stack>
+    );
+  }
+
 
   return (
     <Box sx={{width: '100%', height: '100%'}}>
-      <Typography variant="h2">Control</Typography>
+      <Typography variant="h3">Control</Typography>
       {loading ?
-        <Typography variant='h2'>Loading....</Typography> :
+        <Typography variant='h4'>Loading....</Typography> :
         <Box sx={{width: '100%', height: '100%'}}>
-          <Typography variant='h2'>Patterns</Typography>
-          <ButtonGroup variant='contained' aria-label='pattern selection button group'>
-            {patternButtons}
-          </ButtonGroup>
-          <Typography variant='h2'>Overlays</Typography>
-          <ButtonGroup variant='contained' aria-label='pattern selection button group'>
-            {overlayButtons}
-          </ButtonGroup>
-          <Typography variant='h2'>Palettes</Typography>
-          <ButtonGroup variant='contained' aria-label='pattern selection button group'>
-            {paletteButtons}
-          </ButtonGroup>
-          <Typography variant='h2'>Sliders</Typography>
-          <Stack spacing={2}>
-            {sliderControls}
-          </Stack>
+          <Typography variant='h4'>Patterns</Typography>
+          {generateButtonGroup(patternNames, 'pattern')}
+          <Typography variant='h4'>Overlays</Typography>
+          {generateButtonGroup(overlayNames, 'overlay')}
+          <Typography variant='h4'>Palettes</Typography>
+          {generateButtonGroup(paletteNames, 'palette')}
+          <Typography variant='h4'>Sliders</Typography>
+          {generateSliderGroup()}
         </Box>
       }
     </Box>
