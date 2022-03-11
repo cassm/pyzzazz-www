@@ -5,6 +5,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import ResponsiveAppBar from './ResponsiveAppBar.js';
 import Configuration from './Configuration.js';
 import Control from './Control.js';
+import ControlDrawer from './ControlDrawer.js';
 import Status from './Status.js';
 import Visualiser from './Visualiser.js';
 import {theme} from './common/theme'
@@ -42,7 +43,10 @@ function App() {
       <Router>
         <ThemeProvider theme={theme}>
           <ResponsiveAppBar/>
-          <Box sx={{flexGrow: 2, display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+          <Box mt={8} ml={3} sx={{zIndex: 1250, position: 'fixed'}}>
+            <ControlDrawer />
+          </Box>
+          <Box sx={{flexGrow: 2, display: 'flex', alignItems: 'center', flexDirection: 'column', zIndex: 1249}}>
             <Routes class="PageBody">
               <Route path="/configuration" element={<Configuration/>}/>
               <Route path="/control" element={<Control/>}/>
