@@ -10,6 +10,7 @@ import Visualiser from './Visualiser.js';
 import {theme} from './common/theme'
 
 import './App.css';
+import Box from "@mui/material/Box";
 
 
 function App() {
@@ -37,11 +38,11 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
+    <Box>
       <Router>
         <ThemeProvider theme={theme}>
-          <div className="Container">
-            <ResponsiveAppBar/>
+          <ResponsiveAppBar/>
+          <Box width='100%' height='100%' sx={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
             <Routes class="PageBody">
               <Route path="/configuration" element={<Configuration/>}/>
               <Route path="/control" element={<Control/>}/>
@@ -49,10 +50,10 @@ function App() {
               <Route path={"/"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
               <Route path="/visualiser" element={<Visualiser coords={coords} loading={loading}/>}/>
             </Routes>
-          </div>
+          </Box>
         </ThemeProvider>
       </Router>
-    </div>
+    </Box>
   );
 }
 
