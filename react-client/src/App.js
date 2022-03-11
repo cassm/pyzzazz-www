@@ -4,7 +4,6 @@ import {useEffect, useState} from 'react';
 import {ThemeProvider} from "@mui/material/styles";
 import ResponsiveAppBar from './ResponsiveAppBar.js';
 import Configuration from './Configuration.js';
-import Control from './Control.js';
 import ControlDrawer from './ControlDrawer.js';
 import Status from './Status.js';
 import Visualiser from './Visualiser.js';
@@ -49,7 +48,6 @@ function App() {
           <Box sx={{flexGrow: 2, display: 'flex', alignItems: 'center', flexDirection: 'column', zIndex: 1249}}>
             <Routes class="PageBody">
               <Route path="/configuration" element={<Configuration/>}/>
-              <Route path="/control" element={<Control/>}/>
               <Route path={"/status"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
               <Route path={"/"} element={<Status coords={coords} fixtures={fixtures} loading={loading}/>}/>
               <Route path="/visualiser" element={<Visualiser coords={coords} loading={loading}/>}/>

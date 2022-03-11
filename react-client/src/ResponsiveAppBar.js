@@ -7,10 +7,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Logo from "./logo";
-import ControlDrawer from "./ControlDrawer";
 import {Grid} from "@mui/material";
 
-const pages = ['status', 'configuration', 'control', 'visualiser'];
+const pages = ['status', 'configuration', 'visualiser'];
 
 const ResponsiveAppBar = () => {
   return (
