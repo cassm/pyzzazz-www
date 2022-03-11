@@ -62,7 +62,6 @@ const Visualiser = props => {
   }
 
   let colours = props.coords.map(_ => [0.4588, 0.0, 0.1529]);
-  let [frame, setFrame] = useState(false);
 
   useEffect(() => {
     if (!props.loading) {
