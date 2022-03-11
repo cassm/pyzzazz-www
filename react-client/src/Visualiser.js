@@ -5,7 +5,6 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {v4 as uuidv4} from 'uuid';
 import {io} from 'socket.io-client'
 import './Visualiser.css';
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {Grid} from "@mui/material";
 
