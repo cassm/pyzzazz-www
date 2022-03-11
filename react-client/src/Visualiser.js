@@ -5,6 +5,9 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {v4 as uuidv4} from 'uuid';
 import {io} from 'socket.io-client'
 import './Visualiser.css';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import {Grid} from "@mui/material";
 
 extend({OrbitControls});
 
@@ -110,13 +113,13 @@ const Visualiser = props => {
   }
 
   return (
-    <div className="visualiserCanvas">
+    <Grid container='true' direction='column' width='100%' height='100%' justifyContent='center' alignContent='center' className="visualiserCanvas">
       {
         props.loading ?
-          <h1>Loading....</h1> :
+          <Typography variant='h3' m='0' color='secondary'>Loading....</Typography> :
           <VisualiserCanvas {...props}/>
       }
-    </div>
+    </Grid>
   );
 }
 

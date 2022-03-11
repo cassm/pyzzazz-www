@@ -38,11 +38,11 @@ function App() {
   }, [])
 
   return (
-    <Box>
+    <Box height='100%' sx={{display: 'flex', flexDirection: 'column'}}>
       <Router>
         <ThemeProvider theme={theme}>
           <ResponsiveAppBar/>
-          <Box width='100%' height='100%' sx={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+          <Box sx={{flexGrow: 2, display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
             <Routes class="PageBody">
               <Route path="/configuration" element={<Configuration/>}/>
               <Route path="/control" element={<Control/>}/>
