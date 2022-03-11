@@ -102,7 +102,7 @@ const ControlPanel = props => {
 
   const generateButtonGroup = (title, names, type) => {
     return (
-      <Grid key={uuidv4()} my='1rem' direction='column' container='true' alignItems='center'>
+      <Grid key={uuidv4()} my='1rem' direction='column' container={true} alignItems='center'>
         <Typography variant='h5' color='secondary' sx={{mb: 2}} key={uuidv4()}>{title}</Typography>
         <ButtonGroup
           my='1rem'
@@ -141,7 +141,7 @@ const ControlPanel = props => {
     Object.entries(sliderValues).map((key, entry) => {
       const [name, value] = key;
       const label = name.replace(/_/g, ' ');
-      sliders.push (<Grid key={uuidv4()} my='1rem' direction='column' container='true' alignItems='center'>
+      sliders.push (<Grid key={uuidv4()} my='1rem' direction='column' container={true} alignItems='center'>
         <Typography color="secondary" key={uuidv4()}>
           {label}
         </Typography>
@@ -164,7 +164,7 @@ const ControlPanel = props => {
         direction='column'
         alignItems='stretch'
         width='100%'
-        container='true'
+        container={true}
       >
         {sliders}
       </Grid>

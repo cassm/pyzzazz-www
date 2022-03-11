@@ -112,7 +112,7 @@ const Visualiser = props => {
   }
 
   return (
-    <Grid container='true' direction='column' width='100%' height='100%' justifyContent='center' alignContent='center' className="visualiserCanvas">
+    <Grid container={true} direction='column' width='100%' height='100%' justifyContent='center' alignContent='center' className="visualiserCanvas">
       {
         props.loading ?
           <Typography variant='h3' m='0' color='secondary'>Loading....</Typography> :
