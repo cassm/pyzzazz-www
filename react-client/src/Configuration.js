@@ -54,14 +54,13 @@ const Configuration = props => {
     }
 
     return (
-      <div className='config-line'>
+      <div className='config-line' key={uuidv4()}>
         <label>
           {node}
           <select
             name={`fixture-select-${node}`}
             id={`fixture-select-${node}`}
             value={value}
-            key={uuidv4()}
             onChange={e => setNodes({...nodes, [node]: e.target.value})}
           >
             {fixtureOptions}
