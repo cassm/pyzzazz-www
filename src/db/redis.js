@@ -1,13 +1,9 @@
 'use strict';
 
-const {URL} = require('url');
 const {createClient} = require('redis');
-const config = require('config');
 const winston = require('../utils/logger/winston');
 
 let client = null;
-
-const redisURL = new URL(config.get('db.redis.url'));
 
 function onError(err) {
   client = null;
@@ -38,10 +34,12 @@ function onSIGINT() {
 
 function create() {
   if (client) winston.warn('New Redis client will be created');
+  console.log("starting redis client")
+
+  const redisUrl = `redis://default:${process.env.REDIS_PW}@${process.env.REDIS_IP}:${process.env.REDIS_PORT}`;
 
   client = createClient({
-    host: redisURL.hostname,
-    port: redisURL.port,
+    url: redisUrl,
     retry_strategy: () => config.get('db.redis.retryStrategy'),
   });
 
