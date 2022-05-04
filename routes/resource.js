@@ -5,6 +5,25 @@ const router = express.Router();
 
 const r = redis.client.getInstance();
 
+router.post('/nodes/', async function(req, res) {
+  for (const [key, entry] of Object.entries(req.body)) {
+    if (req.body.hasOwnProperty(key)) {
+      winston.info(`Setting node ${key} to fixture ${entry}`);
+      await r.hSet('pyzzazz:clients', key, entry);
+    }
+  }
+
+  res.sendStatus(201);
+})
+
+router.post('/nodes/:node', async function(req, res) {
+  const node = req.params.node;
+  const value = req.body.value;
+
+  await r.hSet('pyzzazz:clients', node, value);
+  res.sendStatus(201);
+})
+
 router.get('/:resource', async function(req, res, next) {
   const resource = req.params.resource;
 
@@ -34,6 +53,9 @@ router.get('/:resource', async function(req, res, next) {
       break;
     case 'sliders':
       value = await JSON.parse(await r.get('pyzzazz:sliders'));
+      break;
+    case 'nodes':
+      value = await r.hGetAll('pyzzazz:clients');
       break;
     default:
       winston.info(`Request for invalid resource "${resource}"`);
