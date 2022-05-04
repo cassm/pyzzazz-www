@@ -55,7 +55,7 @@ export default function ControlDrawer() {
   return (
     <Box className='WTAF' backgroundColor='transparent' sx={{ zIndex: 1251, display: 'inline-flex' }}>
       <IconButton
-        color="primary"
+        color="secondary"
         aria-label="open drawer"
         onClick={handleDrawerOpen}
         edge="start"
