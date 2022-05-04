@@ -16,16 +16,17 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Grid container={true} wrap='nowrap' direction='row' justifyContent='space-around' gap='2rem' alignItems='center'>
-            <Logo size="55" darkMode={true} gradient={false} key="navLogo"/>
-            <Typography
-              variant="h2"
-              noWrap
-            >
-              Pyzzazz
-            </Typography>
-
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 1, justifyContent: "space-around" }}>
+          <Grid container={true} wrap='nowrap' direction='row' justifyContent='space-between' gap='2rem' alignItems='center'>
+            <Grid container={true} wrap='nowrap' direction='row' justifyContent='center' flexShrink='0' width='33%' gap='2rem' alignItems='center'>
+              <Logo size="55" minWidth='55' darkMode={true} gradient={false} key="navLogo"/>
+              <Typography
+                variant="h2"
+                noWrap
+              >
+                Pyzzazz
+              </Typography>
+            </Grid>
+            <Grid container={true} wrap='nowrap' direction='row' justifyContent='flex-end' gap='4rem' alignItems='center'>
               {pages.map((page) => (
                 <Button
                   key={page}
@@ -41,7 +42,7 @@ const ResponsiveAppBar = () => {
                   </Typography>
                 </Button>
               ))}
-            </Box>
+            </Grid>
           </Grid>
         </Toolbar>
       </Container>
