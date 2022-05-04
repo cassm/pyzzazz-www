@@ -48,6 +48,16 @@ const Configuration = props => {
     return fixtureList;
   }
 
+  const pingNode = async nodeId => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({value: "PING"}),
+    };
+
+    const response = await fetch(`/control/clients/${nodeId}`, requestOptions);
+  }
+
   const generateNodeConfigLine = (node, value, fixtureOptions) => {
     if (!fixtures.includes(value)) {
       value = "unassigned";
@@ -66,6 +76,15 @@ const Configuration = props => {
             {fixtureOptions}
           </select>
         </label>
+        <button
+          id={`node-ping-${node}`}
+          onClick={async e => {
+            e.preventDefault();
+            pingNode(node);
+          }}
+        >
+          Ping
+        </button>
       </div>
     )
   }
