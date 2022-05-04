@@ -6,10 +6,14 @@ const router = express.Router();
 const r = redis.client.getInstance();
 
 router.post('/nodes/', async function(req, res) {
+  const currentValues = await r.hGetAll('pyzzazz:clients');
+
   for (const [key, entry] of Object.entries(req.body)) {
     if (req.body.hasOwnProperty(key)) {
-      winston.info(`Setting node ${key} to fixture ${entry}`);
-      await r.hSet('pyzzazz:clients', key, entry);
+      if (entry !== currentValues[key]) {
+        winston.info(`Setting node ${key} to fixture ${entry}`);
+        await r.hSet('pyzzazz:clients', key, entry);
+      }
     }
   }
 
