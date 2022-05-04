@@ -9,7 +9,7 @@ const Configuration = props => {
   const updateFixtures = async () => {
     const res = await fetch('/resource/fixtures');
     const json = await res.json();
-    setFixtures(extractFixtures(json).concat(['unassigned']));
+    setFixtures(['unassigned'].concat(extractFixtures(json)));
   }
 
   const updateNodes = async () => {
