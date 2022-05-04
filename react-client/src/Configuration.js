@@ -1,5 +1,4 @@
 import {useState, useEffect} from "react";
-// import useInterval from "use-interval";
 import {v4 as uuidv4} from 'uuid';
 
 const Configuration = props => {
