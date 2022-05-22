@@ -10,7 +10,7 @@ router.options('/', cors({credentials: true, origin: true}));
 
 router.post('/', cors({credentials: true, origin: true}), async function(req, res, next) {
   const cmd = req.body;
-  winston.debug(`client command received: ${JSON.stringify(cmd)}`);
+  winston.debug(`server command received: ${JSON.stringify(cmd)}`);
   await r.rPush('pyzzazz:commands', JSON.stringify(cmd));
   res.sendStatus(201);
   next();
