@@ -19,7 +19,7 @@ router.post('/', cors({credentials: true, origin: true}), async function(req, re
 router.post('/clients', async function(req, res, next) {
   const cmd = req.body;
   winston.debug(`command received for all clients: ${cmd.value}`);
-  await r.rPush('pyzzazz:clients:cmd', cmd.value);
+  await r.publish('pyzzazz:clients:cmd', cmd.value);
   res.sendStatus(201);
   next();
 });
@@ -28,7 +28,7 @@ router.post('/clients/:id', async function(req, res, next) {
   const id = req.params.id;
   const cmd = req.body;
   winston.debug(`command received for client ${id}: ${cmd.value}`);
-  await r.rPush(`pyzzazz:clients:${id}:cmd`, cmd.value);
+  await r.publish(`pyzzazz:clients:${id}:cmd`, cmd.value);
   res.sendStatus(201);
   next();
 });
