@@ -1,9 +1,11 @@
 import {useState, useEffect} from "react";
 import {v4 as uuidv4} from 'uuid';
+import './Configuration.css';
 
 const Configuration = props => {
   const [fixtures, setFixtures] = useState([]);
   const [nodes, setNodes] = useState({});
+  const [colourModes, setColourModes] = useState({});
 
   const updateFixtures = async () => {
     const res = await fetch('/resource/fixtures');
@@ -16,9 +18,35 @@ const Configuration = props => {
     setNodes(await res.json());
   }
 
+  const updateColourModes = async () => {
+    const res = await fetch('/resource/colourModes');
+    setColourModes(await res.json());
+  }
+
+  const sendServerCmd = async(target_keyword, type, value) => {
+    const cmd = [{
+      target_keyword,
+      command: {
+        type,
+        name: "",
+        args: {},
+      },
+      value
+    }];
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cmd)
+    };
+
+    const response = await fetch('/control/', requestOptions);
+  }
+
   useEffect(() => {
     updateNodes();
     updateFixtures();
+    updateColourModes();
   }, []);
 
   const generateFixtureOptions = () => {
@@ -48,17 +76,17 @@ const Configuration = props => {
     return fixtureList;
   }
 
-  const pingNode = async nodeId => {
+  const sendNodeCmd = async (nodeId, cmd) => {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({value: "PING"}),
+      body: JSON.stringify({value: cmd}),
     };
 
     const response = await fetch(`/control/clients/${nodeId}`, requestOptions);
   }
 
-  const generateNodeConfigLine = (node, value, fixtureOptions) => {
+  const generateNodeConfigLine = (node, value, colourMode, fixtureOptions) => {
     if (!fixtures.includes(value)) {
       value = "unassigned";
     }
@@ -76,27 +104,80 @@ const Configuration = props => {
             {fixtureOptions}
           </select>
         </label>
+        <label>
+          Colour mode
+          <select
+            name={`colour-mode-{node}`}
+            id={`colour-mode-{node}`}
+            value={colourMode}
+            onChange={e => setColourModes({...colourModes, [node]: e.target.value})}
+          >
+            <option value="COLOUR_MODE_RGB" key={uuidv4()}>RGB</option>
+            <option value="COLOUR_MODE_RGBW" key={uuidv4()}>RGBW</option>
+
+          </select>
+
+        </label>
+        <label>
+
+        </label>
         <button
           id={`node-ping-${node}`}
           onClick={async e => {
             e.preventDefault();
-            pingNode(node);
+            sendNodeCmd(node, "PING");
           }}
         >
           Ping
+        </button>
+        <button
+          id={`node-reset-${node}`}
+          onClick={async e => {
+            e.preventDefault();
+            sendNodeCmd(node, "RESET");
+          }}
+        >
+          Reset
+        </button>
+        <button
+          id={`node-calibrate-minus-${node}`}
+          onClick={async e => {
+            e.preventDefault();
+            sendServerCmd(value, "calibration", -3.14/6);
+          }}
+        >
+          Calibrate -
+        </button>
+        <button
+          id={`node-calibrate-plus-${node}`}
+          onClick={async e => {
+            e.preventDefault();
+            sendServerCmd(value, "calibration", 3.14/6);
+          }}
+        >
+          Calibrate +
         </button>
       </div>
     )
   }
 
   const postNodeConfig = async () => {
-    const requestOptions = {
+    let requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(nodes),
     };
 
-    const response = await fetch('/resource/nodes', requestOptions);
+    let response = await fetch('/resource/nodes', requestOptions);
+
+    requestOptions.body = JSON.stringify(colourModes);
+    response = await fetch('/resource/colourModes', requestOptions);
+
+    for (const [key, entry] of Object.entries(colourModes)) {
+      if (colourModes.hasOwnProperty(key)) {
+        sendNodeCmd(key, entry);
+      }
+    }
   }
 
   const nodeConfig = [];
@@ -104,7 +185,7 @@ const Configuration = props => {
 
   for (const [key, entry] of Object.entries(nodes)) {
     if (nodes.hasOwnProperty(key)) {
-      nodeConfig.push(generateNodeConfigLine(key, entry, fixtureOptions));
+      nodeConfig.push(generateNodeConfigLine(key, entry, colourModes[key] || "COLOUR_MODE_RGB", fixtureOptions));
     }
   }
 
@@ -120,6 +201,7 @@ const Configuration = props => {
             e.preventDefault();
             await updateNodes();
             await updateFixtures();
+            await updateColourModes();
           }}
         >
           Refresh
@@ -132,6 +214,15 @@ const Configuration = props => {
           }}
         >
           Submit
+        </button>
+        <button
+          id="toggle-calibration"
+          onClick={async e => {
+            e.preventDefault();
+            sendServerCmd("", "toggle_calibration", 0);
+          }}
+        >
+          Toggle calibration mode
         </button>
       </form>
     </div>
