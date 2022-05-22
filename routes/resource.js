@@ -28,6 +28,29 @@ router.post('/nodes/:node', async function(req, res) {
   res.sendStatus(201);
 })
 
+router.post('/colourModes/', async function(req, res) {
+  const currentValues = await r.hGetAll('pyzzazz:clients');
+
+  for (const [key, entry] of Object.entries(req.body)) {
+    if (req.body.hasOwnProperty(key)) {
+      if (entry !== currentValues[key]) {
+        winston.info(`Setting node ${key} to colour mode ${entry}`);
+        await r.hSet('pyzzazz:colourModes', key, entry);
+      }
+    }
+  }
+
+  res.sendStatus(201);
+})
+
+router.post('/colourModes/:node', async function(req, res) {
+  const node = req.params.node;
+  const value = req.body.value;
+
+  await r.hSet('pyzzazz:colourModes', node, value);
+  res.sendStatus(201);
+})
+
 router.get('/:resource', async function(req, res, next) {
   const resource = req.params.resource;
 
@@ -60,6 +83,9 @@ router.get('/:resource', async function(req, res, next) {
       break;
     case 'nodes':
       value = await r.hGetAll('pyzzazz:clients');
+      break;
+    case 'colourModes':
+      value = await r.hGetAll('pyzzazz:colourModes');
       break;
     default:
       winston.info(`Request for invalid resource "${resource}"`);
