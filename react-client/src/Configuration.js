@@ -6,6 +6,7 @@ const Configuration = props => {
   const [fixtures, setFixtures] = useState([]);
   const [nodes, setNodes] = useState({});
   const [colourModes, setColourModes] = useState({});
+  const [fps, setFps] = useState(30);
 
   const updateFixtures = async () => {
     const res = await fetch('/resource/fixtures');
@@ -195,6 +196,22 @@ const Configuration = props => {
       <h2>Nodes</h2>
       <form className='nodeConfig'>
         {nodeConfig}
+        <p/>
+        <label>
+          fps
+          <input
+            type='number'
+            id='fps'
+            name='fps'
+            default='40'
+            min='1'
+            max='120'
+            onChange={e => setFps(e.target.value)}
+          />
+        </label>
+
+        <p/>
+
         <button
           id='refresh-button'
           onClick={async e => {
@@ -210,6 +227,7 @@ const Configuration = props => {
           id='submit-button'
           onClick={async e => {
             e.preventDefault();
+            await sendServerCmd("", "set_fps", fps);
             await postNodeConfig();
           }}
         >
@@ -223,6 +241,25 @@ const Configuration = props => {
           }}
         >
           Toggle calibration mode
+        </button>
+      <p/>
+        <button
+          id="clear-config"
+          onClick={async e => {
+            e.preventDefault();
+            sendServerCmd("", "clear_config", 0);
+          }}
+        >
+          Clear Config
+        </button>
+        <button
+          id="restart_server"
+          onClick={async e => {
+            e.preventDefault();
+            sendServerCmd("", "restart_server", 0);
+          }}
+        >
+          Restart Server
         </button>
       </form>
     </div>
